@@ -4,42 +4,43 @@ from django.utils import timezone
 
 
 # Data model for blog posts
-# Модель данных для постов блога
+# Модель данных для ствтей блога
 class Post(models.Model):
     # Post status tuple
-    # Кортеж статус постов
+    # Кортеж статус статей
     STATUS_CHOICES = (('draft', 'Черновик'), ('published', 'Опубликовано'))
     # Post title
-    # Заголовок постов блога
-    title = models.CharField(max_length=250)
+    # Заголовок статьи блога
+    title = models.CharField(verbose_name='Заголовок', max_length=250)
     # Semantic URL for posts
-    # Семантический URL  для постов
-    slug = models.SlugField(max_length=250, unique_for_date='published')
+    # Семантический URL  для статьи
+    slug = models.SlugField('URL', max_length=250, unique_for_date='published')
     # Foreign key of the author post
-    # Внешний ключ автора поста
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='blog_posts')
+    # Внешний ключ автора статьи
+    author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE, related_name='blog_posts')
     # The content of the post
-    # Содержание поста
-    body = models.TextField()
+    # Содержание статьи
+    body = models.TextField(verbose_name='Содержание статьи')
     # Post publication date
-    # Дата публикации поста
-    publish = models.DateTimeField(default=timezone.now)
+    # Дата публикации статьи
+    publish = models.DateTimeField('Дата публикации статьи', default=timezone.now)
     # Post creation date
-    # Дата создания поста
+    # Дата создания статьи
     created = models.DateTimeField(auto_now_add=True)
     # Date and time when the post was updated
-    # Дата и время когда был обновлен пост
+    # Дата и время когда была обновлена статья
     updated = models.DateTimeField(auto_now=True)
     # Post status
-    # Статус поста
-    status = models.CharField(
+    # Статус статьи
+    status = models.CharField(verbose_name='Статус',
         max_length=10, choices=STATUS_CHOICES, default='draft')
 
     # Metadata. Sort order of posts in descending order of publication date
     # Метаданные. Порядок сортировки постов по убыванию даты публикации
     class Meta:
         ordering = ('-publish',)
+        verbose_name = 'статью'
+        verbose_name_plural = 'Статьи'
 
     # The method returns the display of the object in an understandable way
     # Метод возвращает отображение объекта понятном виде
