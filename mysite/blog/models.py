@@ -1,7 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
+
+# Manager model
+# Менеджер модели
+class PublishedManager(models.Manager):
+    # Method return QuerySet with filter on "status"
+    # Метод возврата QuerySet с фильтром по "status"
+    def get_queryset(self):
+        return super().get_queryset().filter(status='published')
 
 # Data model for blog posts
 # Модель данных для ствтей блога
@@ -38,6 +47,14 @@ class Post(models.Model):
     status = models.CharField(verbose_name='Статус', max_length=10, choices=STATUS_CHOICES, default='draft')
     # Metadata. Sort order of posts in descending order of publication date
     # Метаданные. Порядок сортировки постов по убыванию даты публикации
+    
+    # The default model manager
+    # Менеджер модели по умолчанию
+    objects = models.Manager()
+    # New model manager
+    # Новый менеджер модели
+    published = PublishedManager()
+
     class Meta:
         ordering = ('-date_published',)
         verbose_name = 'статью'
@@ -47,3 +64,10 @@ class Post(models.Model):
     # Метод возвращает отображение объекта понятном виде
     def __str__(self):
         return self.title
+    
+    # Getting the URL of the link to the post
+    # Получение URL ссылки на пост
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.date_published.year, self.date_published.month, self.date_published.day, self.slug])
+
+
