@@ -10,7 +10,7 @@ class PublishedManager(models.Manager):
     # Method return QuerySet with filter on "status"
     # Метод возврата QuerySet с фильтром по "status"
     def get_queryset(self):
-        return super().get_queryset().filter(status='published')
+        return super(PublishedManager, self).get_queryset().filter(status='published')
 
 # Data model for blog posts
 # Модель данных для ствтей блога
@@ -23,13 +23,10 @@ class Post(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=250)
     # Semantic URL for posts
     # Семантический URL  для статьи
-    slug = models.SlugField('URL', max_length=250, unique_for_date='date_published')
+    slug = models.SlugField(verbose_name='URL', max_length=250, unique_for_date='date_published')
     # Foreign key of the author post
     # Внешний ключ автора статьи
     author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE, related_name='blog_posts')
-    # Preview post
-    # Предварительный просмотр статьи
-    body_preview = models.TextField(verbose_name='Предварительный просмотр статьи')
     # The content of the post
     # Содержание статьи
     body = models.TextField(verbose_name='Содержание статьи')
@@ -45,16 +42,15 @@ class Post(models.Model):
     # Post status
     # Статус статьи
     status = models.CharField(verbose_name='Статус', max_length=10, choices=STATUS_CHOICES, default='draft')
-    # Metadata. Sort order of posts in descending order of publication date
-    # Метаданные. Порядок сортировки постов по убыванию даты публикации
-    
-    # The default model manager
+     # The default model manager
     # Менеджер модели по умолчанию
     objects = models.Manager()
     # New model manager
     # Новый менеджер модели
     published = PublishedManager()
 
+    # Metadata. Sort order of posts in descending order of publication date
+    # Метаданные. Порядок сортировки постов по убыванию даты публикации
     class Meta:
         ordering = ('-date_published',)
         verbose_name = 'статью'
@@ -68,6 +64,5 @@ class Post(models.Model):
     # Getting the URL of the link to the post
     # Получение URL ссылки на пост
     def get_absolute_url(self):
+        #pylint: disable=E1101
         return reverse('blog:post_detail', args=[self.date_published.year, self.date_published.month, self.date_published.day, self.slug])
-
-

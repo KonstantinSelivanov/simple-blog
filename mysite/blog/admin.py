@@ -14,10 +14,10 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created', 'date_published', 'author')
     # Search
     # Поиск
-    search_fields = ('title', 'body_preview', 'body')
+    search_fields = ('title', 'body')
     # Automatic URL generation (slug)
     # Автоматическая генерация URL (slug)
-    preopopulated_fields = {'slug': ('title',)}
+    prepopulated_fields = {'slug': ('title',)}
     # Navigation by post date
     # Навигация по датам публикации 
     date_hierarchy = 'date_published'

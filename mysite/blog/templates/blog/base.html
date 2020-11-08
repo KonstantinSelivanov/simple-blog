@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"> 
+  <title>{% block title %} {% endblock title %}</title>
+  <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+<head>
+ <body>
+  <div id="header"><h1>My blog</h1></div>
+  <div id="sidebar">
+    <p><a href="b_all.html">b_all.html</a></p>
+    <p><a href="b_author.html">b_author.html</a></p>
+    <p><a href="b_theme.html">b_theme.html</a></p>
+    <p><a href="b_popular.html">b_popular.html</a></p>
+    <p><a href="b_last.html">b_last.html</a></p>
+  </div>
+  <div id="content">
+    {% block content %}
+    {% endblock content%}
+  </div>
+  <div id="footer">&copy; admin</div>
+ </body>
+</html>
