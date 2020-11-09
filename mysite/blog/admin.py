@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
 
 
 # Registration of a decareable class Post
@@ -9,7 +9,7 @@ class PostAdmin(admin.ModelAdmin):
     # The fields that models will designate on the list page
     # Поля модели которые будут отображаться на странице списка
     list_display = ('title', 'slug', 'author', 'date_published', 'status')
-    # Filtering the post list
+    # Filtering the posts list
     # Фильтрация списка статей
     list_filter = ('status', 'created', 'date_published', 'author')
     # Search
@@ -24,3 +24,17 @@ class PostAdmin(admin.ModelAdmin):
     # Sort posts by 'status', 'date_published'
     # Сортировка статей по 'status', 'date_published'
     ordering = ('status', 'date_published')
+
+# Registration of a decareable class Comment
+# Регистрация декарируемого класса Comment
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    # The fields that models will designate on the list page
+    # Поля модели которые будут отображаться на странице списка
+    list_display = ('name', 'email', 'post', 'created', 'moderation')
+    # Filtering the comment list
+    # Фильтрация списка комментариев
+    list_filter = ('moderation', 'created', 'updated')
+    # Search
+    # Поиск
+    search_fields = ('name', 'email', 'body')
