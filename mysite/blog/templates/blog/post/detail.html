@@ -17,8 +17,43 @@
     {% comment %} Convert post content to HTML with line breaks {% endcomment %}
     {% comment %} Преобразование содержимого статьи в HTML с переносами строк {% endcomment %}
     {{ post.body|linebreaks }}
-
+    {% comment %} Displaying the total number of comments {% endcomment %}
+    {% comment %} Отображение общего количества комментариев {% endcomment %}
     {% with comments.count as total_comments %}
-        <h2> {{ total_comments }} комментариев {{ total_comments|pluralize }} </h2>
+        <h2> Количество комментариев: {{ total_comments }}.</h2>
     {% endwith %}
+    {% comment %} List of comments {% endcomment %}
+    {% comment %} Список комментариев {% endcomment %}
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                {% comment %} The name of the author of the comment, the date when the comment was created and the text of the comment are displayed {% endcomment %}
+                {% comment %} Отображается имя автора комментария, дата создания комментария и текст комментария {% endcomment %}
+                "{{ comment.name }}" {{ comment.created }}
+            </p>
+            {% comment %} Convert post content to HTML with line breaks {% endcomment %}
+            {% comment %} Преобразование содержимого статьи в HTML с переносами строк {% endcomment %}
+            {{ comment.body|linebreaks }}   
+            <hr> 
+        </div>
+    {% empty %}
+        <p>Пока нет комментариев</p>  
+    {% endfor %}
+    {% comment %} Displaying a comment form or message about a successfully created comment {% endcomment %}
+    {% comment %} Отображение формы комментариев или сообщения об упешно созданном коментарии {% endcomment %}
+    {% if new_comment %}
+        <h2>Ваш комментарий был добавлен</h2>
+    {% else %}
+        <h2>Добавить новый комментарий</h2>
+        <form action="." method="post">          
+            {% comment %} Hidden field with auto-generated token to protect against CSRF attacks {% endcomment %}
+            {% comment %} Скрытое поле с автоматически сгенерированным токеном для защиты от CSRF-атак {% endcomment %}
+            {% csrf_token %}
+            {% comment %} Generating form fields as the HTML-elements of paragraph <p> {% endcomment %}
+            {% comment %} Генерация полей формы как HTML-элементы параграфа <p> {% endcomment %}           
+            {{ comment_form }}
+            <p><input type="submit" value="Добавить комментарий"></p>
+        </form>    
+    {% endif %}
+
 {% endblock content %}
