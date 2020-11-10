@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 # Manager model
@@ -48,6 +49,11 @@ class Post(models.Model):
     # New model manager
     # Новый менеджер модели
     published = PublishedManager()
+    # Manager tags 
+    # Менеджер тегов
+    tags = TaggableManager()
+
+
 
     # Metadata. Sort order of posts in descending order of publication date
     # Метаданные. Порядок сортировки постов по убыванию даты публикации

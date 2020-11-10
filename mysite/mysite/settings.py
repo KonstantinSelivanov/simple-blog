@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # App configuration
     # Конфигурация приложения
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+    # Система комментариев
+    # Comment system
+    'taggit',
 ]
 
 MIDDLEWARE = [
