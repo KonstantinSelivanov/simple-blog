@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from .models import Post, Comment
 from .forms import CommentForm
+from taggit.models import Tag
 
 
 # The post_list handler queries the database for all published posts using the "published" model manager
@@ -11,6 +12,20 @@ def post_list(request):
     # Object list 
     # Список объектов
     object_list = Post.published.all()
+    # Variable for new tag
+    # Переменная для новых тегов 
+    tag = None
+    #
+    # 
+    if tag_slug:
+        #
+        # 
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        #
+        # 
+        object_list = object_list.filter(tags__in=[tag])
+
+
     # 3 posts on each page
     # 3 статьи на каждой странице
     paginator = Paginator(object_list, 3)
@@ -31,7 +46,7 @@ def post_list(request):
         # Если номер страницы больше, чем общее количество страниц, возвращается последння страница
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts} )
+    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts, 'tag': tag} )
 
 # Handler for displaying the post page
 # Обработчик для отображения страницы статьи
