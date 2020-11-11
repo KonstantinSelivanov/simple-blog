@@ -20,7 +20,12 @@
         {% comment %} Теги {% endcomment %}
         <p class="tags">
             Теги: 
-            {{ post.tags.all|join:", " }}
+            {% for tag in post.tags.all %}
+                <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+                    {{ tag.name }}
+                </a>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </p>
         
         {{ post.body|truncatewords:150|linebreaks }}

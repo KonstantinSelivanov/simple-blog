@@ -8,24 +8,24 @@ from taggit.models import Tag
 
 # The post_list handler queries the database for all published posts using the "published" model manager
 # Обработчик post_list запрашивает из базы данных все опубликованные статей с помощью менеджера моделей "published"
-def post_list(request):
+def post_list(request, tag_slug=None):
     # Object list 
     # Список объектов
     object_list = Post.published.all()
     # Variable for new tag
     # Переменная для новых тегов 
     tag = None
-    #
-    # 
-    if tag_slug:
-        #
-        # 
+    
+    # tag_slug will be set in the URL
+    # tag_slug будет задаваться в URL’е 
+    if tag_slug:  
+        # Creation of QuerySet. Find all published articles and, if a tag slug is specified, get the corresponding Tag model object using the method get_object_or_404() 
+        # Создание QuerySet. Находим все опубликованные статьи и, если указан слаг тега, получаем соответствующий объект модели Tag с помощью метода get_object_or_404()
         tag = get_object_or_404(Tag, slug=tag_slug)
-        #
-        # 
+        # Filtering the list of articles and leaving only those related to the received tag
+        # Фильтрация списка статей и оставляем только те которые связаны с полученным тегом
         object_list = object_list.filter(tags__in=[tag])
-
-
+    
     # 3 posts on each page
     # 3 статьи на каждой странице
     paginator = Paginator(object_list, 3)
