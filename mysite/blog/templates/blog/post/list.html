@@ -1,14 +1,28 @@
 {% extends 'blog/base.html' %}
+
 {% block title %}My blog{% endblock title %}
+    
 {% block content %}
+    {% if tag %}
+        <h2>Posts tagged with "{{ tag.name }}"</h2>
+    {% endif %}
     {% for post in posts %}
         <h2>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
         </h2>
         <p class="date">
             Дата публикации: {{ post.date_published }} <br>
             Автор: {{ post.author }}
         </p>
+        {% comment %} Tags {% endcomment %}
+        {% comment %} Теги {% endcomment %}
+        <p class="tags">
+            Теги: 
+            {{ post.tags.all|join:", " }}
+        </p>
+        
         {{ post.body|truncatewords:150|linebreaks }}
     {% endfor %}
     {% include "pagination.html" with page=posts %}

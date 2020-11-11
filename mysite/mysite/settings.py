@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # App configuration
     # Конфигурация приложения
-    'blog.apps.BlogConfig',
-    # Система комментариев
-    # Comment system
-    'taggit',
+    'blog.apps.BlogConfig',   
+    # Tegs subsystem
+    # Подсистема тегов
+    "taggit",
 ]
 
 MIDDLEWARE = [
@@ -124,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# To make django-taggit case insensitive when searching for existing tags
+# Чтобы django-taggit не учитывал регистр при поиске существующих тегов
+TAGGIT_CASE_INSENSITIVE = True
