@@ -1,0 +1,103 @@
+    body {
+    font: 11pt Arial, Helvetica, sans-serif; /* Рубленый шрифт текста */
+    margin: 0; /* Отступы на странице */
+    text-align: justify; /* Выравнивание текста статей по ширине*/
+   }
+   h1 {
+    font-size: 36px; /* Размер шрифта */
+    margin: 0; /* Убираем отступы */
+    color: #fc6; /* Цвет текста */
+   }
+   h2 {
+    margin-top: 0; /* Убираем отступ сверху */
+   }
+   h3 {
+    font-size: 24px; /* Размер шрифта */
+    margin: 0; /* Убираем отступы */
+    color: rgb(0, 0, 0); /* Цвет текста */
+   }
+   #header { /* Верхний блок */
+    background: #0080c0; /* Цвет фона */
+    padding: 25px; /* Поля вокруг текста */
+   }
+   #sidebar { /* Левая колонка */
+    float: left; /* Обтекание справа */
+    border: 1px solid #333; /* Параметры рамки вокруг */
+    width: 20%; /* Ширина колонки */
+    padding: 5px; /* Поля вокруг текста */
+    margin: 10px 10px 20px 25px; /* Значения отступов */
+   }
+   p.date { 
+    color:#ccc;
+    font-family: georgia, serif;
+    font-size: 12px;
+    font-style: italic; 
+    }
+    /* pagination */
+    .pagination { 
+    margin:40px 0; 
+    font-weight:bold;
+    }
+    #content { /* Правая колонка */
+    margin: 10px 5px 20px 25%; /* Значения отступов */
+    padding: 5px; /* Поля вокруг текста */
+    /*border: 1px solid #333; /* Параметры рамки */
+    width:60%;
+    }
+    /* forms */
+    label { 
+    float:left;
+    clear:both;
+    color:#333;
+    margin-bottom:4px; 
+    }
+input, textarea { 
+    clear:both;
+    float:left;
+    margin:0 0 10px;
+    background:#ededed;
+    border:0;
+    padding:6px 10px;
+    font-size:12px;
+}
+input[type=submit] {
+    font-weight:bold;
+    background:#00abff;
+    color:#fff;
+    padding:10px 20px;
+    font-size:14px;
+    text-transform:uppercase; 
+}
+.errorlist { 
+    color:#cc0033;
+    float:left;
+    clear:both;
+    padding-left:10px; 
+}
+   /* comments */
+    .comment {
+    padding:10px;
+    }
+    .comment:nth-child(even) {
+    background:#efefef;
+    }
+    .comment .info {
+    font-weight:bold;
+    font-size:14px;
+    color:rgb(44, 107, 7);
+    }
+   
+   #footer { /* Нижний блок */
+    background: #333; /* Цвет фона */
+    padding: 5px; /* Поля вокруг текста */
+    color: #fff; /* Цвет текста */
+    clear: left; /* Отменяем действие float */
+   }
+
+   hr {
+    border: none; /* Убираем границу */
+    background-color: red; /* Цвет линии */
+    color: red; /* Цвет линии для IE6-7 */
+    height: 2px; /* Толщина линии */
+   }
+  

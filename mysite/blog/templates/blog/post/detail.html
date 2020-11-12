@@ -16,9 +16,9 @@
         Дата публикации: {{ post.date_published }} <br>
         Автор: {{ post.author }} 
     </p>
-    {% comment %} Convert post content to HTML with line breaks {% endcomment %}
-    {% comment %} Преобразование содержимого статьи в HTML с переносами строк {% endcomment %}
-    {{ post.body|linebreaks }}
+    {% comment %} The "safe" filter marks a string as not requiring subsequent HTML escaping {% endcomment %}
+    {% comment %} Фильтр "safe" gомечает строку, как не требующую последующего HTML экранирования {% endcomment %}
+    {{ post.body|safe }}
 
     {% comment %} Similar posts {% endcomment %}
     {% comment %} Рекомендованные статьи {% endcomment %}

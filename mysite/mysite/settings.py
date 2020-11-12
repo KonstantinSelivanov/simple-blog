@@ -42,8 +42,14 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',   
     # Tegs subsystem
     # Подсистема тегов
-    "taggit",
+    'taggit',
+    # Text editing subsystem
+    # Подсистема редактирования текста
+    'ckeditor',
+    'ckeditor_uploader',
 ]
+
+CKEDITOR_UPLOAD_PATH = "mysite/media/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,7 +130,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = 'static/'
 
 # To make django-taggit case insensitive when searching for existing tags
 # Чтобы django-taggit не учитывал регистр при поиске существующих тегов
 TAGGIT_CASE_INSENSITIVE = True
+
+# Media attachment configuration
+# Конфигурация вложения медиафайлов
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = 'media/'

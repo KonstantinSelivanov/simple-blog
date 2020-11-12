@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Manager model
@@ -30,7 +31,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE, related_name='blog_posts')
     # The content of the post
     # Содержание статьи
-    body = models.TextField(verbose_name='Содержание статьи')
+    # body = models.TextField(verbose_name='Содержание статьи')
+    body = RichTextUploadingField(verbose_name='Содержание статьи')
     # Post publication date
     # Дата публикации статьи
     date_published = models.DateTimeField('Дата публикации статьи', default=timezone.now)

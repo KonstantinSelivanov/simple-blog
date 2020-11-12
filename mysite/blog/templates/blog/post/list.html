@@ -31,11 +31,11 @@
                 {% if not forloop.last %}, {% endif %}
             {% endfor %}
         </p>
-        {% comment %} The "truncatewords" filter truncates text after the specified number of words
-        The "linebreaks" filter converts output to HTML with line breaks {% endcomment %}
-        {% comment %} Фильтр "truncatewords" обрезает текст после указанного количества слов 
-        Фильтр "linebreaks" преобразует вывод в HTML с переносами строк {% endcomment %}
-        {{ post.body|truncatewords:150|linebreaks }}
+        {% comment %} The "truncatewords_html" filter truncates the string after the specified number of words and takes into account the presence of HTML tags {% endcomment %}
+        {% comment %} Фильтр "truncatewords_html" обрезает строку после указанного количества слов и учитывает наличие HTML-тегов {% endcomment %}
+        {% comment %} The "safe" filter marks a string as not requiring subsequent HTML escaping {% endcomment %}
+        {% comment %} Фильтр "safe" gомечает строку, как не требующую последующего HTML экранирования {% endcomment %}
+        {{ post.body|truncatewords_html:200|safe }}
     {% endfor %}
     {% comment %} Connecting the pagination template for paging {% endcomment %}
     {% comment %} Подключение шаблона "pagination" постраничного отображения {% endcomment %}
