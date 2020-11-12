@@ -52,6 +52,8 @@ def post_list(request, tag_slug=None):
 # Handler for displaying the post page
 # Обработчик для отображения страницы статьи
 def post_detail(request, year, month, day, post):
+    # Getting a post by ID
+    # Получение статьи по идентификатору
     post = get_object_or_404(Post, slug=post, status='published',
                              date_published__year=year, date_published__month=month, date_published__day=day)
     # List of active comments for the current post
@@ -60,6 +62,7 @@ def post_detail(request, year, month, day, post):
     # Variable for new comments
     # Переменная для новых комментариев
     new_comment = None
+
     if request.method == 'POST':
         # User posted a comment. Initializing the form on a GET request
         # Пользователь отправил комментарий. Инициализируем форму при GET-запросе
@@ -103,7 +106,15 @@ def post_detail(request, year, month, day, post):
 # Class handler analog of the "post_list" function
 # Обработчик-классов аналог функции "post_list"
 class PostListView(ListView):
+    # Using the overridden QuerySet model instead of getting all objects.
+    # Использование переопределенного QuerySet модели вместо получения всех объектов.
     queryset = Post.published.all()
+    # Using "posts" as an HTML template context variable that will hold the list of objects.
+    # Использование "posts" в качестве переменной контекста HTML-шаблона, в которой будет храниться список объектов.
     context_object_name = 'posts'
+    # Displaying three objects per page
+    # Постраничное отображение по три объекта на странице
     paginate_py = 3
+    # Using the specified template to form the page
+    # Использование указанный шаблон для формирования страницы
     template_name = 'blog/post/list.html'

@@ -52,12 +52,10 @@ class Post(models.Model):
     # Manager tags 
     # Менеджер тегов
     tags = TaggableManager()
-
-
-
-    # Metadata. Sort order of posts in descending order of publication date
-    # Метаданные. Порядок сортировки постов по убыванию даты публикации
+ 
     class Meta:
+        # Sort order of posts in descending order of publication date
+        # Порядок сортировки постов по убыванию даты публикации
         ordering = ('-date_published',)
         verbose_name = 'статью'
         verbose_name_plural = 'Статьи'
@@ -76,8 +74,14 @@ class Post(models.Model):
 # Comment model
 # Модель комментариев
 class Comment(models.Model):
+    # Linking a comment to a specific post
+    # Привязка комментария к конкретной статье
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    # Comment author's name
+    # Имя автора комментария
     name = models.CharField(verbose_name='Имя', max_length=80)
+    # e-mail
+    # Электронная почта
     email = models.EmailField(verbose_name='e-mail')
     # The content of the comment
     # Содержание комментария
@@ -88,8 +92,8 @@ class Comment(models.Model):
     # Date and time when the comment was updated
     # Дата и время когда был обновлен комментарий
     updated = models.DateTimeField(verbose_name='Дата изменения комментария', auto_now=True)
-    # 
-    # 
+    # Moderation of comments
+    # Модерация комментариев
     moderation = models.BooleanField(verbose_name='Модерация', default=True)
 
     # Metadata. Sort order of comments in descending order of publication date

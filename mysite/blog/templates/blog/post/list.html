@@ -1,17 +1,23 @@
 {% extends 'blog/base.html' %}
+{% comment %} Connecting a basic blog template {% endcomment %}
+{% comment %} Подключение базового шаблона блога {% endcomment %}
 
-{% block title %}My blog{% endblock title %}
-    
 {% block content %}
+    {% comment %} Used as a title when filtering posts by tags {% endcomment %}
+    {% comment %} Используется в качестве заголовка при фильтрации статей по тегам {% endcomment %}
     {% if tag %}
         <h2>Статьи с тегами: "{{ tag.name }}"</h2>
     {% endif %}
+    {% comment %} Display list of posts, post authors and post date, and tags {% endcomment %}
+    {% comment %} Отображение списка статей, авторов статей и даты публикации, а также тегов {% endcomment %}
     {% for post in posts %}
+        {% comment %} Post title and URL    {% endcomment %}
+        {% comment %} Название и URL статьи  {% endcomment %}
         <h2>
-            <a href="{{ post.get_absolute_url }}">
-                {{ post.title }}
-            </a>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
         </h2>
+        {% comment %} Display publication date and publication author {% endcomment %}
+        {% comment %} Отображение дата публикации и автора публикации {% endcomment %}
         <p class="date">
             Дата публикации: {{ post.date_published }} <br>
             Автор: {{ post.author }}
@@ -21,15 +27,18 @@
         <p class="tags">
             Теги: 
             {% for tag in post.tags.all %}
-                <a href="{% url "blog:post_list_by_tag" tag.slug %}">
-                    {{ tag.name }}
-                </a>
+                <a href="{% url "blog:post_list_by_tag" tag.slug %}">{{ tag.name }}</a>
                 {% if not forloop.last %}, {% endif %}
             {% endfor %}
         </p>
-        
+        {% comment %} The "truncatewords" filter truncates text after the specified number of words
+        The "linebreaks" filter converts output to HTML with line breaks {% endcomment %}
+        {% comment %} Фильтр "truncatewords" обрезает текст после указанного количества слов 
+        Фильтр "linebreaks" преобразует вывод в HTML с переносами строк {% endcomment %}
         {{ post.body|truncatewords:150|linebreaks }}
     {% endfor %}
+    {% comment %} Connecting the pagination template for paging {% endcomment %}
+    {% comment %} Подключение шаблона "pagination" постраничного отображения {% endcomment %}
     {% include "pagination.html" with page=posts %}
     {% comment %} {% include "pagination.html" with page=page_obj %} {% endcomment %}
 {% endblock content %}
