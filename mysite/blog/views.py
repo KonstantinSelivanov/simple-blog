@@ -86,7 +86,7 @@ def post_detail(request, year, month, day, post):
     
     # Getting all the current post ID tags. Getting a flat list - flat=True 
     # Получение всех ID тегов текущей статьи. Получение плоского списка - flat=True 
-    post_tags_ids = post.tags.value_list('id', flat=True)
+    post_tags_ids = post.tags.values_list('id', flat=True)
     # Getting all the stations that are associated with at least one tag, excluding the current post.
     # Получение всех статьей, которые связаны хотя бы с одним тегом, исключая текущую статью. 
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
@@ -96,7 +96,7 @@ def post_detail(request, year, month, day, post):
     # Сортировка результата по количеству совпадений тегов. 
     # Если две и более статьи имеют одинаковый набор тегов, выбирать ту из них, которая является самой новой. 
     # Ограничить выборку тем количеством статей, которое мы хотим отображать в списке рекомендуемых. [:4]
-    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-date_published')[:4]
 
     return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form, 'similar_posts': similar_posts})
 
