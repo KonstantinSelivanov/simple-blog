@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
+from django.db.models import Count
 from .models import Post, Comment
 from .forms import CommentForm
 from taggit.models import Tag
@@ -79,7 +80,25 @@ def post_detail(request, year, month, day, post):
         # If the form is filled out incorrectly, the HTML template with error messages is displayed
         # Если форма заполнена некорректно отображается HTML-шаблон с сообщениями об ошибках
         comment_form = CommentForm()
-    return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form})
+
+    # Formation of a list of related posts by tags
+    # Формирование списка похожих статей по тегам
+    
+    # Getting all the current post ID tags. Getting a flat list - flat=True 
+    # Получение всех ID тегов текущей статьи. Получение плоского списка - flat=True 
+    post_tags_ids = post.tags.value_list('id', flat=True)
+    # Getting all the stations that are associated with at least one tag, excluding the current post.
+    # Получение всех статьей, которые связаны хотя бы с одним тегом, исключая текущую статью. 
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    # Sort the result by the number of tag matches.
+    # If two or more posts have the same set of tags, choose the one that is the newest.
+    # Limit the selection to the number of posts that we want to display in the featured list. [:4]
+    # Сортировка результата по количеству совпадений тегов. 
+    # Если две и более статьи имеют одинаковый набор тегов, выбирать ту из них, которая является самой новой. 
+    # Ограничить выборку тем количеством статей, которое мы хотим отображать в списке рекомендуемых. [:4]
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+
+    return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form, 'similar_posts': similar_posts})
 
 # Class handler analog of the "post_list" function
 # Обработчик-классов аналог функции "post_list"

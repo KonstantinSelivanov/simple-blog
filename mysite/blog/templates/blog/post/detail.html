@@ -17,11 +17,25 @@
     {% comment %} Convert post content to HTML with line breaks {% endcomment %}
     {% comment %} Преобразование содержимого статьи в HTML с переносами строк {% endcomment %}
     {{ post.body|linebreaks }}
+
+    {% comment %} Similar posts {% endcomment %}
+    {% comment %} Рекомендованные статьи {% endcomment %}
+    <h3>Рекомендованные статьи</h3>
+    {% for post in similar_posts %}
+        <p>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </p>
+    {% endfor %}
+    {% empty %}
+        <p>Пока нет рекомендованных статей</p>  
+    {% endfor %}
+
     {% comment %} Displaying the total number of comments {% endcomment %}
     {% comment %} Отображение общего количества комментариев {% endcomment %}
     {% with comments.count as total_comments %}
         <h2> Количество комментариев: {{ total_comments }}.</h2>
     {% endwith %}
+
     {% comment %} List of comments {% endcomment %}
     {% comment %} Список комментариев {% endcomment %}
     {% for comment in comments %}
@@ -39,6 +53,8 @@
     {% empty %}
         <p>Пока нет комментариев</p>  
     {% endfor %}
+
+
     {% comment %} Displaying a comment form or message about a successfully created comment {% endcomment %}
     {% comment %} Отображение формы комментариев или сообщения об упешно созданном коментарии {% endcomment %}
     {% if new_comment %}
