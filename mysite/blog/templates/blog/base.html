@@ -1,4 +1,7 @@
+{% load blog_tags %}
 {% load static %}
+{% comment %} Including your own tags {% endcomment %}
+{% comment %} Подключение собственных тегов {% endcomment %}
 {% comment %} Including static files {% endcomment %}
 {% comment %} Подключение статических файлов {% endcomment %}
 
@@ -12,6 +15,8 @@
  <body>
   <div id="header"><h1>Мой блог</h1></div>
   <div id="sidebar">
+    <h2>Мой блог</h2>
+    <p>Количество сообщений: {% total_posts %}</p>
     <p><a href="b_all.html">b_all.html</a></p>
     <p><a href="b_author.html">b_author.html</a></p>
     <p><a href="b_theme.html">b_theme.html</a></p>

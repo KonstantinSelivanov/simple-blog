@@ -12,7 +12,8 @@ class PublishedManager(models.Manager):
     # Method return QuerySet with filter on "status"
     # Метод возврата QuerySet с фильтром по "status"
     def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(status='published')
+        return super(PublishedManager, self).get_queryset()\
+                                            .filter(status='published')
 
 # Data model for blog posts
 # Модель данных для ствтей блога
@@ -25,10 +26,13 @@ class Post(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=250)
     # Semantic URL for posts
     # Семантический URL  для статьи
-    slug = models.SlugField(verbose_name='URL', max_length=250, unique_for_date='date_published')
+    slug = models.SlugField(verbose_name='URL', max_length=250, 
+                            unique_for_date='date_published')
     # Foreign key of the author post
     # Внешний ключ автора статьи
-    author = models.ForeignKey(User, verbose_name='Автор', on_delete=models.CASCADE, related_name='blog_posts')
+    author = models.ForeignKey(User, verbose_name='Автор', 
+                                     on_delete=models.CASCADE, 
+                                     related_name='blog_posts')
     # The content of the post
     # Содержание статьи
     # body = models.TextField(verbose_name='Содержание статьи')
