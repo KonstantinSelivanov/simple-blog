@@ -17,11 +17,9 @@
   <div id="sidebar">
     <h2>Мой блог</h2>
     <p>Количество сообщений: {% total_posts %}</p>
-    <p><a href="b_all.html">b_all.html</a></p>
-    <p><a href="b_author.html">b_author.html</a></p>
-    <p><a href="b_theme.html">b_theme.html</a></p>
-    <p><a href="b_popular.html">b_popular.html</a></p>
-    <p><a href="b_last.html">b_last.html</a></p>
+    <h2>Последнии статьи</h2>
+    {% show_latest_posts 3 %}
+
   </div>
   <div id="content">
     {% block content %}
