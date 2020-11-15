@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .feeds import LatestPostFeed
 
 
 app_name = 'blog'
@@ -21,5 +22,9 @@ urlpatterns = [
     
     # Template for referring to the list of articles associated with a specific tag
     # Шаблон для обращения к списку статей связанных с определенным тегом
-    path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag')
+    path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
+
+    # Template for RSS
+    # Шаблон для RSS
+    path('feed/', LatestPostFeed(), name='post_feed'),
 ]

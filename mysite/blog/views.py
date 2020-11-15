@@ -6,13 +6,23 @@ from .models import Post, Comment
 from .forms import CommentForm
 from taggit.models import Tag
 
+from django.db.models import Q
+
 
 # The post_list handler queries the database for all published posts using the "published" model manager
 # Обработчик post_list запрашивает из базы данных все опубликованные статей с помощью менеджера моделей "published"
 def post_list(request, tag_slug=None):
-    # Object list 
-    # Список объектов
-    object_list = Post.published.all()
+    #search
+    # 
+    search_query = request.GET.get('search1', '')
+
+    if search_query:
+        object_list = Post.objects.filter(Q(title__icontains=search_query) | Q(body__icontains=search_query))
+    else:
+        # Object list 
+        # Список объектов
+        object_list = Post.objects.all()
+
     # Variable for new tag
     # Переменная для новых тегов 
     tag = None
@@ -26,7 +36,7 @@ def post_list(request, tag_slug=None):
         # Filtering the list of articles and leaving only those related to the received tag
         # Фильтрация списка статей и оставляем только те которые связаны с полученным тегом
         object_list = object_list.filter(tags__in=[tag])
-    
+
     # 3 posts on each page
     # 3 статьи на каждой странице
     paginator = Paginator(object_list, 3)

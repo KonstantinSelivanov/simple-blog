@@ -12,9 +12,9 @@
     margin-top: 0; /* Убираем отступ сверху */
    }
    h3 {
-    font-size: 24px; /* Размер шрифта */
+    font-size: 18px; /* Размер шрифта */
     margin: 0; /* Убираем отступы */
-    color: rgb(0, 0, 0); /* Цвет текста */
+    color: rgb(204, 78, 78); /* Цвет текста */
    }
    #header { /* Верхний блок */
     background: #0080c0; /* Цвет фона */
@@ -52,7 +52,7 @@
     color:#333;
     margin-bottom:4px; 
     }
-input, textarea { 
+    input, textarea { 
     clear:both;
     float:left;
     margin:0 0 10px;
@@ -60,15 +60,15 @@ input, textarea {
     border:0;
     padding:6px 10px;
     font-size:12px;
-}
-input[type=submit] {
+    }
+    input[type=submit] {
     font-weight:bold;
     background:#00abff;
     color:#fff;
     padding:10px 20px;
     font-size:14px;
     text-transform:uppercase; 
-}
+    }
 .errorlist { 
     color:#cc0033;
     float:left;
