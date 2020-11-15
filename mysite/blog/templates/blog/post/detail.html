@@ -2,6 +2,8 @@
 {% comment %} Connecting a basic blog template {% endcomment %}
 {% comment %} Подключение базового шаблона блога {% endcomment %}
 
+{% load blog_tags %}
+
 {% comment %} Post title in the header of the web browser {% endcomment %}
 {% comment %} Название статьи в заголовке веб браузера {% endcomment %}
 {% block title %} {{ post.title }} {% endblock title %}
@@ -46,9 +48,9 @@
                 {% comment %} Отображается имя автора комментария, дата создания комментария и текст комментария {% endcomment %}
                 "{{ comment.name }}" {{ comment.created }}
             </p>
-            {% comment %} Convert post content to HTML with line breaks {% endcomment %}
-            {% comment %} Преобразование содержимого статьи в HTML с переносами строк {% endcomment %}
-            {{ comment.body|linebreaks }}   
+            {% comment %} Convert post content to HTML using custom Markdown-based "markdown_format" filter {% endcomment %}
+            {% comment %} Преобразование содержимого статьи в HTML с помощью собственного фильтра "markdown_format" на основе Markdown{% endcomment %}
+            {{ comment.body|markdown_format }}   
             <hr> 
         </div>
     {% empty %}

@@ -1,4 +1,7 @@
 from django import template
+from django.db.models import Count
+from django.utils.safestring import mark_safe
+from markdown import markdown
 from ..models import Post
 
 
@@ -16,6 +19,22 @@ register = template.Library()
 def total_posts():
     return Post.published.count()
 
+# Decorator for registering a new tag
+# Декоратор для регистрации нового тега
+@register.simple_tag(name='get_most_commmented_posts')
+# Simple template tag for displaying posts with the most comments
+# The annotate () method is used to add the number of comments to each article.
+# Sorting the result by the number of comments. 
+# Limit the selection to the number of posts that we want to display in 
+# the list of recently published posts [: count]
+# Простой шаблонный тег для отображения статей с наибольшим количеством комментариев
+# Метод annotate() служит для добавления к каждой статье количества ее комментариев.
+# Сортировка результата по количеству комментариев. Ограничить выборку тем 
+# количеством статей, которое мы хотим отображать в списке последних опубликованных статей [:count]
+def get_most_commmented_posts(count=5):  
+    return Post.published.annotate(total_comments=Count('comments')).\
+                                   order_by('-total_comments')[:count]
+
 # Decorator for using an inclusive tag
 # Декоратор для использования инклюзивного тега
 @register.inclusion_tag('blog/post/latest_posts.html')
@@ -30,3 +49,11 @@ def show_latest_posts(count=5):
     # в списке последних опубликованных статей [:count]
     latest_posts = Post.published.order_by('-date_published')[:count]
     return {'latest_posts': latest_posts}
+
+# Decorator for using Markdown formatting
+# Декоратор для использования форматирования Markdown
+@register.filter(name='markdown_format')
+# Custom template filter using Markdown formatting. Filter result text as HTML code
+# Собственный шаблонный фильтр с помощью форматирования Markdown. Результат работы фильтра текст как HTML-код
+def markdown_format(text):
+    return mark_safe(markdown(text))

@@ -19,7 +19,15 @@
     <p>Количество сообщений: {% total_posts %}</p>
     <h2>Последнии статьи</h2>
     {% show_latest_posts 3 %}
-
+    <h2>Самые комментируемые статьи</h2>
+    {% get_most_commmented_posts as most_commmented_posts %} 
+    <ul>
+      {% for post in most_commmented_posts %}
+        <li>
+          <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
   </div>
   <div id="content">
     {% block content %}

@@ -27,6 +27,9 @@ DEBUG = True #False
 
 ALLOWED_HOSTS = []
 
+# Site ID for the realization of the site map
+# Идентификатор сайта для реализации карты сайта
+SITE_ID = 1 
 
 # Application definition
 
@@ -37,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Site map
+    # Карта сайта
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     # App configuration
     # Конфигурация приложения
     'blog.apps.BlogConfig',   
@@ -47,6 +54,9 @@ INSTALLED_APPS = [
     # Подсистема редактирования текста
     'ckeditor',
     'ckeditor_uploader',
+    # Markdown subsystem
+    # Подсистема Markdown 
+    'markdown',   
 ]
 
 CKEDITOR_UPLOAD_PATH = "mysite/media/"
