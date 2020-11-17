@@ -15,24 +15,21 @@
  <body>
   <div id="header">
     <h1>Мой блог</h1>
-  </div>
-  <div id="sidebar">
-    <h2>Мой блог</h2>
-    <p><h3>Количество сообщений: {% total_posts %} </h3></p>
+    <form action="{% url 'blog:post_list' %}" method='get'>
+      <input name="search" type="text" placeholder = "Search...">
+      <button type="submit">Поиск</button>
+    </form>
     <p>
       <a href="{% url 'blog:post_feed' %}">
         Подпишитесь на мою RSS-ленту
       </a>
     </p>
-    <h2>Поиск</h2>
-    <form action="{% url 'blog:post_list' %}" method='get'>
-      <input name="search1" type="text" placeholder = "Search...">
-      <button type="submit">Поиск</button>
-    </form>
-    <h2>Последнии статьи</h2>
-    {% show_latest_posts 3 %}
-    
-    <h2>Самые комментируемые статьи</h2>
+  </div>
+  <div id="sidebar">  
+    <p><h3>Количество сообщений: {% total_posts %} </h3></p>   
+    <h3>Последнии статьи</h3>
+    {% show_latest_posts 3 %}   
+    <h3>Самые комментируемые статьи</h3>
     {% get_most_commmented_posts as most_commmented_posts %} 
     <ul>
       {% for post in most_commmented_posts %}
@@ -44,7 +41,6 @@
   </div>
   <div id="content">
     {% block content %}
-
     {% endblock content%}
   </div>
   <div id="footer">&copy; admin</div>

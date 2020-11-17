@@ -2,9 +2,11 @@
     "python.pythonPath": "/home/user/env/env_simple_blog/bin/python",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.linting.pycodestyleEnabled": false,
+    "python.linting.pycodestyleEnabled": true,
     "python.linting.pydocstyleEnabled": false,
     "python.linting.mypyEnabled": false,
     "python.linting.flake8Enabled": false,
-    "AllAutocomplete.showCurrentDocument": true
+    "AllAutocomplete.showCurrentDocument": true,
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_django"],
+    "python.linting.pycodestyleArgs": ["--ignore=E303"]
 }

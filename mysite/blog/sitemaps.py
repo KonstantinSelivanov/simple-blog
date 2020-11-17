@@ -12,12 +12,16 @@ class PostSitemap(Sitemap):
     # Степень совпадения статей с тематикой сайта (максимальное значение – 1)
     priority = 0.9
 
-    # The items () method returns a QuerySet of objects that will be displayed in the sitemap
-    # Метод items() возвращает QuerySet объектов, которые будут отобра­жаться в карте сайта
+    # The items () method returns a QuerySet of objects that will be displayed 
+    # in the sitemap
+    # Метод items() возвращает QuerySet объектов, которые будут отобра­жаться 
+    # в карте сайта
     def items(self):
         return Post.published.all()
     
-    # The lastmod () method takes each object from the result of the items () call and returns the time the post was last modified
-    # Метод lastmod() принимает каждый объект из результата вызова items() и возвращает время последней модификации статьи
+    # The lastmod () method takes each object from the result of the items () 
+    # call and returns the time the post was last modified
+    # Метод lastmod() принимает каждый объект из результата вызова items() 
+    # и возвращает время последней модификации статьи
     def lastmod(self, obj):
         return obj.updated

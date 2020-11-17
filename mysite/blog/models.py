@@ -39,16 +39,19 @@ class Post(models.Model):
     body = RichTextUploadingField(verbose_name='Содержание статьи')
     # Post publication date
     # Дата публикации статьи
-    date_published = models.DateTimeField('Дата публикации статьи', default=timezone.now)
+    date_published = models.DateTimeField('Дата публикации статьи', 
+                                          default=timezone.now)
     # Post creation date
     # Дата создания статьи
-    created = models.DateTimeField(verbose_name='Дата создания статьи', auto_now_add=True)
+    created = models.DateTimeField(verbose_name='Дата создания статьи', 
+                                   auto_now_add=True)
     # Date and time when the post was updated
     # Дата и время когда была обновлена статья
     updated = models.DateTimeField(auto_now=True)
     # Post status
     # Статус статьи
-    status = models.CharField(verbose_name='Статус', max_length=10, choices=STATUS_CHOICES, default='draft')
+    status = models.CharField(verbose_name='Статус', max_length=10, 
+                              choices=STATUS_CHOICES, default='draft')
      # The default model manager
     # Менеджер модели по умолчанию
     objects = models.Manager()
@@ -75,14 +78,18 @@ class Post(models.Model):
     # Получение URL ссылки на пост
     def get_absolute_url(self):
         #pylint: disable=E1101
-        return reverse('blog:post_detail', args=[self.date_published.year, self.date_published.month, self.date_published.day, self.slug])
+        return reverse('blog:post_detail', args=[self.date_published.year, 
+                                                 self.date_published.month, 
+                                                 self.date_published.day, 
+                                                 self.slug])
 
 # Comment model
 # Модель комментариев
 class Comment(models.Model):
     # Linking a comment to a specific post
     # Привязка комментария к конкретной статье
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, 
+                                   related_name='comments')
     # Comment author's name
     # Имя автора комментария
     name = models.CharField(verbose_name='Имя', max_length=80)
@@ -94,10 +101,12 @@ class Comment(models.Model):
     body = models.TextField(verbose_name='Комментарий')
     # Comment creation date
     # Дата создания комментария
-    created = models.DateTimeField(verbose_name='Дата создания комментария',auto_now_add=True)
+    created = models.DateTimeField(verbose_name='Дата создания комментария',
+                                   auto_now_add=True)
     # Date and time when the comment was updated
     # Дата и время когда был обновлен комментарий
-    updated = models.DateTimeField(verbose_name='Дата изменения комментария', auto_now=True)
+    updated = models.DateTimeField(verbose_name='Дата изменения комментария', 
+                                   auto_now=True)
     # Moderation of comments
     # Модерация комментариев
     moderation = models.BooleanField(verbose_name='Модерация', default=True)
