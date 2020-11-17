@@ -2,10 +2,14 @@ from django.contrib import admin
 from .models import Post, Comment
 
 
-# Registration of a decareable class Post
-# Регистрация декарируемого класса Post
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    """
+    Registration of a decareable class Post
+    Регистрация декарируемого класса Post
+
+    """
+
     # The fields that models will designate on the list page
     # Поля модели которые будут отображаться на странице списка
     list_display = ('title', 'slug', 'author', 'date_published', 'status')
@@ -19,16 +23,21 @@ class PostAdmin(admin.ModelAdmin):
     # Автоматическая генерация URL (slug)
     prepopulated_fields = {'slug': ('title',)}
     # Navigation by post date
-    # Навигация по датам публикации 
+    # Навигация по датам публикации
     date_hierarchy = 'date_published'
     # Sort posts by 'status', 'date_published'
     # Сортировка статей по 'status', 'date_published'
     ordering = ('status', 'date_published')
 
-# Registration of a decareable class Comment
-# Регистрация декарируемого класса Comment
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
+    """
+    Registration of a decareable class Comment
+    Регистрация декарируемого класса Comment
+
+    """
+
     # The fields that models will designate on the list page
     # Поля модели которые будут отображаться на странице списка
     list_display = ('name', 'email', 'post', 'created', 'moderation')

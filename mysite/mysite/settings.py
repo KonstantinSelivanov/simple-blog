@@ -22,14 +22,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@wg1_i2(5kdeg18okhegb)5f-xzjplfo+y5%s^5$t%v2+^z$s8'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #False
+DEBUG = True  # False
 
 ALLOWED_HOSTS = []
 
 # Site ID for the realization of the site map
 # Идентификатор сайта для реализации карты сайта
-SITE_ID = 1 
+SITE_ID = 1
 
 # Application definition
 
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     # App configuration
     # Конфигурация приложения
-    'blog.apps.BlogConfig',   
+    'blog.apps.BlogConfig',
     # Tegs subsystem
     # Подсистема тегов
     'taggit',
@@ -55,8 +56,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     # Markdown subsystem
-    # Подсистема Markdown 
-    'markdown',   
+    # Подсистема Markdown
+    'markdown',
 ]
 
 CKEDITOR_UPLOAD_PATH = "mysite/media/"
