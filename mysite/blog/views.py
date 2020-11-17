@@ -7,24 +7,32 @@ from .models import Post, Comment
 from .forms import CommentForm
 
 
-''' The post_list handler queries the database for all published posts using
-the "published" model manager. '''
-''' Обработчик post_list запрашивает из базы данных все опубликованные статей
-с помощью менеджера моделей "published. '''
-
-
 def post_list(request, tag_slug=None):
-    # search
-    #
+    """
+    The post_list handler queries the database for all published posts using
+    the "published" model manager.
+
+    Обработчик post_list запрашивает из базы данных все опубликованные статей
+    с помощью менеджера моделей "published".
+
+    """
+
+    # Search queru
+    # Поисковый запрос
     search_query = request.GET.get('search', '')
 
     if search_query:
-        object_list = Post.objects.filter(Q(title__icontains=search_query) |
-                                          Q(body__icontains=search_query))
+        # List of objects filtered by search_query. Filter \ search for
+        # articles by title and content.
+        # Список объектов отфильтрованных с помошью поискового
+        # запроса search_query. Фильтр\поиск статей осуществляется
+        # по заголовку и содержимому.
+        object_list = Post.published.filter(
+            Q(title__icontains=search_query) | Q(body__icontains=search_query))
     else:
-        # Object list
-        # Список объектов
-        object_list = Post.objects.all()
+        # Object all list
+        # Список всех объектов
+        object_list = Post.published.all()
 
     # Variable for new tag
     # Переменная для новых тегов
@@ -33,21 +41,22 @@ def post_list(request, tag_slug=None):
     # tag_slug will be set in the URL
     # tag_slug будет задаваться в URL’е
     if tag_slug:
-        ''' Creation of QuerySet. Find all published articles and,
-        if a tag slug is specified, get the corresponding Tag model object
-        using the method get_object_or_404(). '''
-        ''' Создание QuerySet. Находим все опубликованные статьи и, если указан
-        слаг тега, получаем соответствующий объект модели Tag с помощью метода
-        get_object_or_404(). '''
+        # Creation of QuerySet. Find all published articles and, if a tag slug
+        # is specified, get the corresponding Tag model object using
+        # the method get_object_or_404().
+        # Создание QuerySet. Находим все опубликованные статьи и, если указан
+        # слаг тега, получаем соответствующий объект модели Tag с помощью
+        # метода get_object_or_404().
         tag = get_object_or_404(Tag, slug=tag_slug)
-        # Filtering the list of articles and leaving only those related to the received tag
-        # Фильтрация списка статей и оставляем только те которые связаны с полученным тегом
+        # Filtering the list of articles and leaving only those related
+        # to the received tag
+        # Фильтрация списка статей и оставляем только те которые связаны
+        # с полученным тегом
         object_list = object_list.filter(tags__in=[tag])
 
     # 3 posts on each page
     # 3 статьи на каждой странице
-    limit_posts = 3
-    paginator = Paginator(object_list, limit_posts)
+    paginator = Paginator(object_list, 3)
     # Getting the current page using a GET request
     # Получение текущей страницы с помощью GET запроса
     page = request.GET.get('page')
@@ -71,11 +80,14 @@ def post_list(request, tag_slug=None):
                                                    'posts': posts,
                                                    'tag': tag})
 
-# Handler for displaying the post page
-# Обработчик для отображения страницы статьи
-
 
 def post_detail(request, year, month, day, post):
+    """
+    Handler for displaying the post page.
+    Обработчик для отображения страницы статьи.
+
+    """
+
     # Getting a post by ID
     # Получение статьи по идентификатору
     post = get_object_or_404(Post, slug=post, status='published',
@@ -91,12 +103,13 @@ def post_detail(request, year, month, day, post):
 
     if request.method == 'POST':
         # User posted a comment. Initializing the form on a GET request
-        # Пользователь отправил комментарий. Инициализируем форму при GET-запросе
+        # Пользователь отправил комментарий.
+        # Инициализируем форму при GET-запросе.
         comment_form = CommentForm(data=request.POST)
-        ''' If we receive a POST request, then fill out the form with data from
-        the request and validate it using the method is_valid ().'''
-        ''' Если получаем POST-запрос, то заполняем форму данными из запроса и
-        валидируем методом is_valid().'''
+        # If we receive a POST request, then fill out the form with data from
+        # the request and validate it using the method is_valid ().
+        # Если получаем POST-запрос, то заполняем форму данными из запроса и
+        # валидируем методом is_valid().
         if comment_form.is_valid():
             # Create a new comment, but not save to the database
             # Создание нового комментария, но не сохранение в базе данных
@@ -108,50 +121,56 @@ def post_detail(request, year, month, day, post):
             # Сохранение комментария в базе данных
             new_comment.save()
     else:
-        ''' If the form is filled out incorrectly, the HTML template with
-        error messages is displayed'''
-        ''' Если форма заполнена некорректно отображается HTML-шаблон
-        с сообщениями об ошибках'''
+        # If the form is filled out incorrectly, the HTML template with
+        # error messages is displayed
+        # Если форма заполнена некорректно отображается HTML-шаблон
+        # с сообщениями об ошибках
         comment_form = CommentForm()
 
     # Formation of a list of related posts by tags
-    # Формирование списка похожих статей по тегам
-
     # Getting all the current post ID tags. Getting a flat list - flat=True
-    # Получение всех ID тегов текущей статьи. Получение плоского списка - flat=True
+    # Формирование списка похожих статей по тегам. Получение всех ID тегов
+    # текущей статьи. Получение плоского списка - flat=True
     post_tags_ids = post.tags.values_list('id', flat=True)
-    # Getting all the stations that are associated with at least one tag, excluding the current post.
-    # Получение всех статьей, которые связаны хотя бы с одним тегом, исключая текущую статью.
+    # Getting all the stations that are associated with at least one tag,
+    # excluding the current post.
+    # Получение всех статьей, которые связаны хотя бы с одним тегом,
+    # исключая текущую статью.
     similar_posts = Post.published.filter(tags__in=post_tags_ids).\
-                                   exclude(id=post.id)
-    ''' Sort the result by the number of tag matches. If two or more posts have
-    the same set of tags, choose the one that is the newest. Limit the selection
-    to the number of posts that we want to display in the featured list. [:4]'''
-    ''' Сортировка результата по количеству совпадений тегов. Если две и более
-    статьи имеют одинаковый набор тегов, выбирать ту из них, которая является
-    самой новой. Ограничить выборку тем количеством статей, которое мы хотим
-    отображать в списке рекомендуемых. [:4]'''
+        exclude(id=post.id)
+    # Sort the result by the number of tag matches. If two or more posts have
+    # the same set of tags, choose the one that is the newest. Limit the
+    # selection to the number of posts that we want to display
+    # in the featured list. [:4]
+    # Сортировка результата по количеству совпадений тегов. Если две и более
+    # статьи имеют одинаковый набор тегов, выбирать ту из них, которая является
+    # самой новой. Ограничить выборку тем количеством статей, которое мы хотим
+    # отображать в списке рекомендуемых. [:4]
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).\
         order_by('-same_tags', '-date_published')[:4]
 
-    return render(request, 'blog/post/detail.html', {'post': post,
-                                                     'comments': comments,
-                                                     'new_comment': new_comment,
-                                                     'comment_form': comment_form,
-                                                     'similar_posts': similar_posts})
-
-# Class handler analog of the "post_list" function
-# Обработчик-классов аналог функции "post_list"
+    return render(request, 'blog/post/detail.html',
+                           {'post': post, 'comments': comments,
+                            'new_comment': new_comment,
+                            'comment_form': comment_form,
+                            'similar_posts': similar_posts})
 
 
 class PostListView(ListView):
+    """
+    Class handler analog of the "post_list" function.
+    Обработчик-классов аналог функции "post_list"
+
+    """
+
     # Using the overridden QuerySet model instead of getting all objects.
-    # Использование переопределенного QuerySet модели вместо получения всех объектов.
+    # Использование переопределенного QuerySet модели вместо получения
+    # всех объектов.
     queryset = Post.published.all()
-    ''' Using "posts" as an HTML template context variable that will hold
-    the list of objects.'''
-    ''' Использование "posts" в качестве переменной контекста HTML-шаблона,
-    в которой будет храниться список объектов.'''
+    # Using "posts" as an HTML template context variable that will hold
+    # the list of objects.
+    # Использование "posts" в качестве переменной контекста HTML-шаблона,
+    # в которой будет храниться список объектов.
     context_object_name = 'posts'
     # Displaying three objects per page
     # Постраничное отображение по три объекта на странице

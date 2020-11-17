@@ -5,8 +5,6 @@ from .feeds import LatestPostFeed
 
 app_name = 'blog'
 
-#
-# 
 urlpatterns = [
     # The template is matched against the "post_list" handler
     # Шаблон сопоставляется с обработчиком "post_list "
@@ -18,10 +16,11 @@ urlpatterns = [
 
     # The template calls the "post_detail" function
     # Шаблон вызывает функцию "post_detail"
-    path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, 
-                                                          name='post_detail'),
-    
-    # Template for referring to the list of articles associated with a specific tag
+    path('<int:year>/<int:month>/<int:day>/<slug:post>/',
+         views.post_detail, name='post_detail'),
+
+    # Template for referring to the list of articles
+    # associated with a specific tag
     # Шаблон для обращения к списку статей связанных с определенным тегом
     path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
 

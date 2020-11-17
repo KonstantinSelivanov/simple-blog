@@ -9,6 +9,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 # Manager model
 # Менеджер модели
 class PublishedManager(models.Manager):
+
     # Method return QuerySet with filter on "status"
     # Метод возврата QuerySet с фильтром по "status"
     def get_queryset(self):
@@ -18,6 +19,7 @@ class PublishedManager(models.Manager):
 # Data model for blog posts
 # Модель данных для ствтей блога
 class Post(models.Model):
+
     # Post status tuple
     # Кортеж статус статей
     STATUS_CHOICES = (('draft', 'Черновик'), ('published', 'Опубликовано'))
@@ -52,7 +54,7 @@ class Post(models.Model):
     # Статус статьи
     status = models.CharField(verbose_name='Статус', max_length=10, 
                               choices=STATUS_CHOICES, default='draft')
-     # The default model manager
+    # The default model manager
     # Менеджер модели по умолчанию
     objects = models.Manager()
     # New model manager
